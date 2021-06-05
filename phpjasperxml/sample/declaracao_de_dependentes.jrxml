@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.13.0.final using JasperReports Library version 6.13.0-46ada4d1be8f3c5985fd0b6146f3ed44caed6f05  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="18142129-aa1b-4c3f-9ca2-77e61e8a96c3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="parameter1" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+	COL.LOGO AS logo,
+	COL.NOMECOLIGADA AS nomecoligada,
+    COL.CNPJ AS cnpj ,				
+	FUN.NOME,
+    FUN.CPF,
+    FUN.RG,
+    FUN.CEP,
+    CONCAT(FUN.NUMEROCARTEIRA,' / ',FUN.SERIECARTEIRA) AS CTPS,
+    CASE WHEN FUN.VT = 0 THEN "NÃO"
+    	WHEN FUN.VT = 1 THEN "SIM" END AS VT,
+    CONCAT(FUN.LOGRADOURO,', ','Nº ',FUN.NUMERO,' , ',FUN.COMPLEMENTO,' , ',FUN.BAIRRO,' , ',FUN.MUNICIPIO) AS END,
+    DEP.NOME_DEP,
+    DEP.DTNASC_DEP,
+    DEP.PARENTESCO
+        
+FROM
+	PFUNC FUN
+	LEFT JOIN GCOLIGADA COL ON COL.CODCOLIGADA = FUN.CODCOLIGADA
+	LEFT JOIN PPESSOA PES ON PES.ID = FUN.ID AND PES.CODCOLIGADA = FUN.CODCOLIGADA
+	LEFT JOIN PFDEPEND DEP ON DEP.CODCOLIGADA = PES.CODCOLIGADA AND DEP.ID_FUNC = PES.MATRICULA
+	    
+WHERE FUN.ID = $P{parameter1}]]>
+	</queryString>
+	<field name="sample1_no" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sample1_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sample1_itemname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sample1_qty" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sample1_uom" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="total" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{sample1_qty}]]></variableExpression>
+	</variable>
+	<variable name="subtotalqty" class="java.lang.String" resetType="Group" resetGroup="groupdate" calculation="Sum">
+		<variableExpression><![CDATA[$F{sample1_qty}]]></variableExpression>
+	</variable>
+	<group name="groupdate">
+		<groupExpression><![CDATA[$F{sample1_date}]]></groupExpression>
+		<groupHeader>
+			<band height="579" splitType="Stretch">
+				<staticText>
+					<reportElement x="0" y="86" width="556" height="33" uuid="a040c558-f7b6-4657-a721-704c3d83f329"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[DECLARO EM ATENDIMENTO A LEGISLAÇÃO DO IMPOSTO DE RENDA RETIDO NA FONTE, PESSOA FÍSICA, QUE O(S) ABAIXO(S) E (SÃO) MEU(S) DEPENDENTE(S) PARA FINS DE DEDUÇÃO:]]></text>
+				</staticText>
+				<textField pattern="">
+					<reportElement x="70" y="35" width="470" height="15" uuid="343e5519-54c8-4558-9cf0-137d66992f08"/>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{END}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="6" y="12" width="42" height="15" uuid="37d65f50-bbea-456f-930d-3f834455cdff"/>
+					<text><![CDATA[NOME:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="6" y="34" width="70" height="15" uuid="c72e9205-3879-4a90-a8b2-0cb518dca305"/>
+					<text><![CDATA[ENDEREÇO:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="6" y="55" width="70" height="15" uuid="c7a111bb-5699-4a28-8878-03db60bdb09c"/>
+					<text><![CDATA[CEP:]]></text>
+				</staticText>
+				<textField pattern="">
+					<reportElement x="42" y="13" width="248" height="15" uuid="533b098e-350e-48da-a7dd-c3413a0ab0dc"/>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOME}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="35" y="56" width="83" height="15" uuid="128fe42d-69f2-4aca-b680-8d9ab58314f7"/>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CEP}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="475" y="15" width="82" height="15" uuid="56985702-12fd-4384-974e-ca1b6496f281"/>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{RG}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="302" y="13" width="42" height="15" uuid="419eab57-e73d-443a-a214-43a198c8918a"/>
+					<text><![CDATA[CPF:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="416" y="14" width="70" height="15" uuid="3db3da42-5181-4072-9ea2-053c0b30f8e2"/>
+					<text><![CDATA[REGISTRO:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="302" y="54" width="90" height="15" uuid="dd3d1849-f732-4609-9c29-6d541dda4aaf"/>
+					<text><![CDATA[Nº CTPS/SÉRIE:]]></text>
+				</staticText>
+				<textField pattern="">
+					<reportElement x="329" y="14" width="77" height="15" uuid="90d53302-3c15-4dbf-b2da-66b61bfb783a"/>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CPF}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="384" y="55" width="120" height="15" uuid="185f52e6-a46b-45d4-af7c-5717e090be50"/>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CTPS}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement x="-2" y="71" width="559" height="1" forecolor="#787878" backcolor="#787878" uuid="03aa5487-040b-46ec-ace7-228cc507bae2"/>
+					<graphicElement>
+						<pen lineStyle="Solid"/>
+					</graphicElement>
+				</rectangle>
+				<rectangle>
+					<reportElement x="1" y="117" width="555" height="21" uuid="ef8a3e5a-20c5-496d-8f3b-7647ba7a3b0c"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="1" y="139" width="279" height="21" uuid="b1d01dc1-9497-40d4-b3e6-d40867aabdbc"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="276" y="139" width="144" height="21" uuid="39bfa874-41db-4097-9492-45b21a39bc7f"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="412" y="139" width="144" height="21" uuid="5b03afda-d858-4bda-8196-4a3b67e5f607"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="190" y="119" width="171" height="21" uuid="d752b07c-c719-41ca-9ec2-16fe824011b3"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[DEPENDENTES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="42" y="141" width="171" height="21" uuid="7da26354-20a7-41cf-bb6e-64d2ab487eb9"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[NOME]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="276" y="141" width="132" height="21" uuid="d306896f-c360-4b41-96c3-9487a89d2372"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[NASCIMENTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="412" y="141" width="144" height="21" uuid="28ed480a-46b9-430c-9802-bf520686a626"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[PARENTESCO]]></text>
+				</staticText>
+				<textField pattern="">
+					<reportElement x="1" y="162" width="269" height="15" uuid="5035be72-85b3-42ad-ba09-3e5d77e197f2"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOME_DEP}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="280" y="163" width="128" height="15" uuid="e8dad842-2ddf-4fcc-bd94-629aaa74e2f8"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DTNASC_DEP}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="420" y="162" width="128" height="15" uuid="6e8f8ae3-02c4-4ace-90ba-1b6dd093d8e7"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PARENTESCO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="279" width="556" height="300" uuid="028fcb43-b012-4736-855e-5d9b2d89b605"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[O contribuinte poderá considerar como seus dependentes:
+
+I- o cônjuge;
+II- o companheiro ou a companheira, desde que haja vida em comum por mais de cinco anos, ou por período menor se da união resultou filho
+III- a filha, o filho, a enteada ou o enteado, até vinte e um anos, ou de qualquer idade quando incapacitado física ou mentalmente para o trabalho;
+IV- o menor pobre, até vinte e um anos, que o contribuinte crie e eduque e do qual detenha a guarda
+V- o irmão, o neto ou o bisneto, sem arrimo dos pais, até vinte e um anos, desde que o contribuinte detenha a guarda judicial, ou de qualquer 
+VI- os pais, os avós ou os bisavós, desde que não aufiram rendimentos, tributáveis ou não, superiores ao limite de isenção mensal;
+VII- o absolutamente incapaz, do qual o contribuinte seja tutor ou curador.
+quando incapacitado física ou mentalmente para o trabalho;
+
+Obs.:
+
+1 - Os dependentes a que referem os incisos III e V do parágrafo anterior poderão ser assim considerados quando maiores até vinte e quatro idade, se ainda estiverem cursando estabelecimento de ensino superior ou escola técnica de segundo grau.
+
+2 - No caso de dependentes comuns, ambos os cônjuges deverão subscrever esta declaração, que pode ser considerada por um ou pelo outro cônjuge, vedado, porém, a concomitância da dedução correspondentes a um mesmo dependente.]]></text>
+				</staticText>
+				<textField pattern="">
+					<reportElement x="504" y="261" width="41" height="15" uuid="59587463-1456-47bb-84f3-8183a7c2acb1"/>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TOTAL_DEP}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="440" y="261" width="76" height="15" uuid="b8d4cd4f-5e22-440a-b723-1606d6543a35"/>
+					<textElement textAlignment="Left"/>
+					<text><![CDATA[TOTAL DEP:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="88">
+				<line>
+					<reportElement x="20" y="62" width="231" height="1" uuid="df8df711-eb89-4b62-8bda-df775ecc0dc8">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="290" y="62" width="231" height="1" uuid="e199503d-b646-4ea3-95d7-5ac62fe09a46">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+				</line>
+				<textField pattern="">
+					<reportElement x="290" y="63" width="231" height="19" uuid="ef9be394-99da-443f-8136-cae3ac803ee5"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nomecoligada}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="20" y="63" width="231" height="19" uuid="dcdef2ed-ccb8-4091-a911-5199f32e1baf"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOME}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="120" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-1" y="0" width="557" height="100" uuid="374f3268-be02-4a12-8eac-c8dad5002de3"/>
+			</rectangle>
+			<image hAlign="Center">
+				<reportElement x="0" y="17" width="105" height="54" uuid="94d54a07-4350-45fd-b521-25773ab00eb6"/>
+				<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+			</image>
+			<textField pattern="">
+				<reportElement x="150" y="20" width="286" height="19" uuid="ed811e5e-275d-463e-a64c-e2bb2ba29be5"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomecoligada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="41" width="107" height="24" uuid="e8de0556-5bd7-4604-9114-df58ee4fbdc4"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cnpj}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="-2" y="101" width="559" height="8" forecolor="#787878" backcolor="#787878" uuid="7fcfeabf-afad-4af2-8b4f-c2ba94b0cac0"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="37" y="80" width="478" height="22" uuid="6ece51d4-68b8-4d37-a3d8-f2a63d6e78a3"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECLARAÇÃO DE DEPENDENTES PARA FINS DE IMPOSTO DE RENDA RETIDO NA FONTE]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="2" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

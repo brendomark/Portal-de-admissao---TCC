@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.13.0.final using JasperReports Library version 6.13.0-46ada4d1be8f3c5985fd0b6146f3ed44caed6f05  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="18142129-aa1b-4c3f-9ca2-77e61e8a96c3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="parameter1" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+	COL.LOGO AS logo,
+	COL.NOMECOLIGADA AS nomecoligada,
+    COL.CNPJ AS cnpj ,
+   	date_format(NOW(),'%d/%b/%Y') AS DATAHORA,
+    FUN.NOME,
+    CASE WHEN FUN.VT = 0 THEN "NÃO"
+    	WHEN FUN.VT = 1 THEN "SIM" END AS VT,
+    CONCAT(FUN.LOGRADOURO,', ','Nº ',FUN.NUMERO,' , ',FUN.COMPLEMENTO,' , ',FUN.BAIRRO,' , ',FUN.MUNICIPIO) AS END  	
+    
+FROM
+	PFUNC FUN
+    LEFT JOIN GCOLIGADA COL ON COL.CODCOLIGADA = FUN.CODCOLIGADA
+    LEFT JOIN PPESSOA PES ON PES.ID = FUN.ID AND PES.CODCOLIGADA = FUN.CODCOLIGADA
+    LEFT JOIN PFUNCAO FUNCAO ON FUNCAO.CODIGO = PES.CODFUNCAO AND PES.CODCOLIGADA = FUNCAO.CODCOLIGADA
+    LEFT JOIN PSECAO SEC ON SEC.CODCOLIGADA = PES.CODCOLIGADA AND SEC.CODIGO = PES.CODSECAO
+    LEFT JOIN PFUNCAO F1 ON F1.CODIGO = PES.CODFUNCAO AND PES.CODCOLIGADA = F1.CODCOLIGADA
+    LEFT JOIN ESTADOCIVIL CIVIL ON FUN.ESTADOCIVIL = CIVIL.ID
+    LEFT JOIN PCODINSTRUCAO INS ON FUN.GRAUINSTRUCAO = INS.CODIGO
+    LEFT JOIN PCODNACAO NACAO ON FUN.NACIONALIDADE = NACAO.CODIGO
+    LEFT JOIN AHORARIO HR ON HR.CODCOLIGADA = PES.CODCOLIGADA AND HR.CODIGO = PES.HORARIOS
+    
+WHERE FUN.ID = $P{parameter1}]]>
+	</queryString>
+	<field name="sample1_no" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sample1_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sample1_itemname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sample1_qty" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sample1_uom" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="total" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{sample1_qty}]]></variableExpression>
+	</variable>
+	<variable name="subtotalqty" class="java.lang.String" resetType="Group" resetGroup="groupdate" calculation="Sum">
+		<variableExpression><![CDATA[$F{sample1_qty}]]></variableExpression>
+	</variable>
+	<group name="groupdate">
+		<groupExpression><![CDATA[$F{sample1_date}]]></groupExpression>
+		<groupHeader>
+			<band height="440" splitType="Stretch">
+				<staticText>
+					<reportElement x="0" y="1" width="556" height="39" uuid="8a735233-5e83-4ce8-925a-88616b66077c"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Optante pela ultilização do Vale Transporte (_____),________________________________________
+]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement x="-2" y="-21" width="559" height="1" forecolor="#787878" backcolor="#787878" uuid="b48a7f9e-9245-4281-ba8a-21c7d60e229e"/>
+					<graphicElement>
+						<pen lineStyle="Solid"/>
+					</graphicElement>
+				</rectangle>
+				<staticText>
+					<reportElement x="66" y="-38" width="421" height="20" uuid="d2116f6e-1ba8-4c3f-93b0-00ed3283fa47"/>
+					<textElement textAlignment="Center">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DECLARAÇÃO DE BENEFICIÁRIO DE VALE TRANSPORTE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="45" width="556" height="30" uuid="e2376449-3c6c-4c73-b989-4d66fc285739"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Eu,_________________________________________ declaro, para efeito do benefício do vale transporte]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="81" width="556" height="30" uuid="46f1850a-0865-4bbc-997f-eea04441893f"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[1º Meu endereço residencial: _________________________________________________]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="117" width="556" height="30" uuid="7f37fb16-71b0-4a5b-8545-297a5080aadf"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[2º Os meios de transporte coletivo, público e regular necessários para os meus deslocamentos são:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="148" width="556" height="62" uuid="5c5efe2f-6342-42aa-bb67-ee36a127aa44"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[-> de minha residência para o local de trabalho:______________________________________________________________________________________________________________________________]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="220" width="556" height="62" uuid="04ba1bb8-7b10-4408-be51-09d2260758b3"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[-> do local de trabalho para minha residência:_______________________________________________________________________________________________________________________________]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="306" width="556" height="43" uuid="ade7b5e0-718e-431f-a64a-3bf39f014862"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Comprometo-me  a  atualizar  as  informações  acima  sempre  que  ocorrerem  alterações  e  utilizar  os  vales  transportes  que  me  forem  concedidos  exclusivamente no percurso indicado.                                                                                                                                                                                      
+    ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="369" width="556" height="53" uuid="6ca7a988-c27d-4bdc-bc72-f7776911d621"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Estou  ciente  de  que  a  declaração  inexata  que  induza  o  empregador  em  erro  ou  uso  indevido  dos  vales  transportes  configura  justa  causa  para  rescisão  do contrato de trabalho por ato de improbidade.
+    ]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="234" y="3" width="44" height="10" uuid="c1528c83-6bdc-42c9-ba8d-e14a94f75d8b"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{VT}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="20" y="45" width="270" height="15" uuid="64c44d8b-81d9-422f-a60e-ce1d30be0000"/>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOME}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="160" y="80" width="327" height="15" uuid="581eaa68-9a3d-4c8f-a37b-6615fd30c234"/>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{END}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="171">
+				<line>
+					<reportElement x="20" y="88" width="231" height="1" uuid="df8df711-eb89-4b62-8bda-df775ecc0dc8">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="290" y="88" width="231" height="1" uuid="e199503d-b646-4ea3-95d7-5ac62fe09a46">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+				</line>
+				<textField pattern="">
+					<reportElement x="214" y="0" width="100" height="19" uuid="a2a52d28-ae0d-45b3-9416-2ad824f67f76"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DATAHORA}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="290" y="89" width="231" height="19" uuid="ef9be394-99da-443f-8136-cae3ac803ee5"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nomecoligada}]]></textFieldExpression>
+				</textField>
+				<textField pattern="">
+					<reportElement x="20" y="89" width="231" height="19" uuid="dcdef2ed-ccb8-4091-a911-5199f32e1baf"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOME}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="211" y="19" width="99" height="1" uuid="b9a3fa82-741e-4522-9ec2-4a168ccf88e4">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="120" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-1" y="0" width="557" height="100" uuid="845ad5b8-902c-4542-bac5-c08e4e3d3435"/>
+			</rectangle>
+			<image hAlign="Center">
+				<reportElement x="0" y="17" width="105" height="54" uuid="c25252cf-db1c-457d-9cca-ae521817e976"/>
+				<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+			</image>
+			<textField pattern="">
+				<reportElement x="150" y="20" width="286" height="19" uuid="6f4fa4ef-76a5-4951-b3a0-4c86c4f5cc17"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomecoligada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="41" width="107" height="24" uuid="0179d972-0ec4-4610-b01e-823bd4a3f933"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cnpj}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.13.0.final using JasperReports Library version 6.13.0-46ada4d1be8f3c5985fd0b6146f3ed44caed6f05  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="18142129-aa1b-4c3f-9ca2-77e61e8a96c3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="parameter1" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+	COL.LOGO AS logo,
+	COL.NOMECOLIGADA AS nomecoligada,
+    COL.CNPJ AS cnpj ,
+   	date_format(NOW(),'%d/%m/%Y') AS DATAHORA,
+    FUN.NOME,
+   	FUN.NUMEROCARTEIRA,
+    FUN.SERIECARTEIRA
+    
+FROM
+	PFUNC FUN
+    LEFT JOIN GCOLIGADA COL ON COL.CODCOLIGADA = FUN.CODCOLIGADA
+    LEFT JOIN PPESSOA PES ON PES.ID = FUN.ID AND PES.CODCOLIGADA = FUN.CODCOLIGADA
+    LEFT JOIN PFUNCAO FUNCAO ON FUNCAO.CODIGO = PES.CODFUNCAO AND PES.CODCOLIGADA = FUNCAO.CODCOLIGADA
+    LEFT JOIN PSECAO SEC ON SEC.CODCOLIGADA = PES.CODCOLIGADA AND SEC.CODIGO = PES.CODSECAO
+    LEFT JOIN PFUNCAO F1 ON F1.CODIGO = PES.CODFUNCAO AND PES.CODCOLIGADA = F1.CODCOLIGADA
+    LEFT JOIN ESTADOCIVIL CIVIL ON FUN.ESTADOCIVIL = CIVIL.ID
+    LEFT JOIN PCODINSTRUCAO INS ON FUN.GRAUINSTRUCAO = INS.CODIGO
+    LEFT JOIN PCODNACAO NACAO ON FUN.NACIONALIDADE = NACAO.CODIGO
+    LEFT JOIN AHORARIO HR ON HR.CODCOLIGADA = PES.CODCOLIGADA AND HR.CODIGO = PES.HORARIOS
+    
+WHERE FUN.ID = $P{parameter1}]]>
+	</queryString>
+	<field name="sample1_no" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sample1_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sample1_itemname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sample1_qty" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sample1_uom" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="total" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{sample1_qty}]]></variableExpression>
+	</variable>
+	<variable name="subtotalqty" class="java.lang.String" resetType="Group" resetGroup="groupdate" calculation="Sum">
+		<variableExpression><![CDATA[$F{sample1_qty}]]></variableExpression>
+	</variable>
+	<group name="groupdate">
+		<groupExpression><![CDATA[$F{sample1_date}]]></groupExpression>
+		<groupHeader>
+			<band height="379" splitType="Stretch">
+				<staticText>
+					<reportElement x="0" y="60" width="556" height="70" uuid="8a735233-5e83-4ce8-925a-88616b66077c"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<text><![CDATA[Recebemos do(a) Sr(a).______________________________________a Carteira de trabalho e Previdência
+
+Social de nº_________ série ________ para procedermos anotações.]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement x="-2" y="-22" width="559" height="1" forecolor="#787878" backcolor="#787878" uuid="b48a7f9e-9245-4281-ba8a-21c7d60e229e"/>
+					<graphicElement>
+						<pen lineStyle="Solid"/>
+					</graphicElement>
+				</rectangle>
+				<staticText>
+					<reportElement x="61" y="0" width="421" height="50" uuid="d2116f6e-1ba8-4c3f-93b0-00ed3283fa47"/>
+					<textElement textAlignment="Center">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[RECIBO DE ENTREGA DA CARTEIRA DE TRABALHO E PREVIDENCIA SOCIAL]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="54" y="85" width="66" height="13" uuid="8f108add-e0fe-457b-b0aa-338476d6d797"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NUMEROCARTEIRA}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="130" y="59" width="202" height="13" uuid="9e164a15-7793-4f47-842c-2085223b779e"/>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOME}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="140" y="85" width="60" height="13" uuid="8884e92d-b375-4cd6-99c6-4856796eaabe"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SERIECARTEIRA}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement x="-2" y="221" width="559" height="1" forecolor="#787878" backcolor="#787878" uuid="abdb5f77-fc7a-423a-99fb-82e3e9e216ac"/>
+					<graphicElement>
+						<pen lineStyle="Solid"/>
+					</graphicElement>
+				</rectangle>
+				<textField pattern="">
+					<reportElement x="53" y="200" width="286" height="19" uuid="d82bad53-8dc8-4d2c-9c58-bac6c8c527bb"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nomecoligada}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="40" y="197" width="315" height="1" uuid="2223a603-d8ea-4e97-9e4a-b8ce6ce191a3">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<graphicElement>
+						<pen lineStyle="Solid"/>
+					</graphicElement>
+				</line>
+				<textField>
+					<reportElement x="160" y="154" width="120" height="13" uuid="b6b1c8b7-e195-43e6-8e90-464de20a931f"/>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DATAHORA}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="7" y="441" width="556" height="70" uuid="35363a50-95a9-4198-8a29-69d5b3df2c3d"/>
+					<textElement>
+						<font size="11"/>
+					</textElement>
+					<text><![CDATA[Recebemos do(a) Sr(a).______________________________________a Carteira de trabalho e Previdência
+
+Social de nº_________ série ________ para procedermos anotações.]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement x="5" y="359" width="559" height="1" forecolor="#787878" backcolor="#787878" uuid="c7d01389-429c-4f4f-8ceb-e311352d6acd"/>
+					<graphicElement>
+						<pen lineStyle="Solid"/>
+					</graphicElement>
+				</rectangle>
+				<staticText>
+					<reportElement x="68" y="381" width="421" height="50" uuid="74ef1361-4e22-4a0c-8211-466797b4f217"/>
+					<textElement textAlignment="Center">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[RECIBO DE DEVOLUÇÃO DA CARTEIRA DE TRABALHO E PREVIDENCIA SOCIAL]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="61" y="466" width="66" height="13" uuid="f60e3b05-d11c-4361-b724-4fe1d4b44663"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NUMEROCARTEIRA}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="137" y="440" width="202" height="13" uuid="29a5e081-bf72-450c-bb04-819c7c74228b"/>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nomecoligada}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="147" y="466" width="60" height="13" uuid="cdd2a9e6-4612-4b7f-8451-4e67f665cf4c"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SERIECARTEIRA}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement x="5" y="602" width="559" height="1" forecolor="#787878" backcolor="#787878" uuid="a8438ea3-8a03-4650-9073-1d8e24483143"/>
+					<graphicElement>
+						<pen lineStyle="Solid"/>
+					</graphicElement>
+				</rectangle>
+				<textField pattern="">
+					<reportElement x="60" y="581" width="286" height="19" uuid="20953947-bd98-4489-a3af-bee5d4e32f5d"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOME}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="47" y="578" width="315" height="1" uuid="6c516020-47dd-4739-aa4e-412ddb1b51d0">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<graphicElement>
+						<pen lineStyle="Solid"/>
+					</graphicElement>
+				</line>
+				<textField>
+					<reportElement x="167" y="535" width="120" height="13" uuid="945cae90-44cd-4686-94a0-fe6b4d9d1e6d"/>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DATAHORA}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="260" width="550" height="1" uuid="340e1814-5e7b-4477-9adc-68f90fcd66dd">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<graphicElement>
+						<pen lineStyle="Dashed"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="298"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="100" splitType="Stretch">
+			<rectangle>
+				<reportElement x="-1" y="14" width="558" height="62" uuid="845ad5b8-902c-4542-bac5-c08e4e3d3435"/>
+			</rectangle>
+			<image hAlign="Center">
+				<reportElement x="0" y="17" width="110" height="57" uuid="c25252cf-db1c-457d-9cca-ae521817e976"/>
+				<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+			</image>
+			<textField pattern="">
+				<reportElement x="150" y="20" width="286" height="19" uuid="6f4fa4ef-76a5-4951-b3a0-4c86c4f5cc17"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomecoligada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="41" width="107" height="24" uuid="0179d972-0ec4-4610-b01e-823bd4a3f933"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cnpj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="507" y="0" width="46" height="12" uuid="83d399b3-ecfb-4915-b1f2-c98d2633fb5e"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="6" y="395" width="558" height="62" uuid="9e4d00e8-303f-412b-9ae8-8f9fef93e9a9"/>
+			</rectangle>
+			<image hAlign="Center">
+				<reportElement x="7" y="398" width="110" height="57" uuid="2124942d-499b-498b-a08e-0a72e4f0a458"/>
+				<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+			</image>
+			<textField pattern="">
+				<reportElement x="157" y="401" width="286" height="19" uuid="b6543940-9304-4d98-8608-8ed3ed23fa7c"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomecoligada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="422" width="107" height="24" uuid="f02f63c5-f820-4a55-b6e2-11ed5ee0ef4d"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cnpj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="514" y="381" width="46" height="12" uuid="dd6d6e00-80f2-428e-97a9-2d113786bc56"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>
